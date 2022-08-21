@@ -1,5 +1,4 @@
-
-from typing import Callable
+from typing import Callable, Union
 from dataclasses import dataclass
 
 
@@ -13,7 +12,7 @@ class InfoMessage:
     speed: float
     calories: float
     MESSAGE: str = ''
-    
+
     def get_message(self) -> str:
         MESSAGE = (f'Тип тренировки: {self.training_type}; '
                    f'Длительность: {self.duration:.3f} ч.; '
@@ -146,12 +145,12 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages = [
+    packages: list[tuple[Union[str, list[int]]]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
     ]
 
     for workout_type, data in packages:
-        training = read_package(workout_type, data)
+        training: Callable = read_package(workout_type, data)
         main(training)
