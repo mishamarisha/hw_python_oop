@@ -1,11 +1,11 @@
 from typing import Dict, Type, ClassVar
 from dataclasses import dataclass, asdict
 
-CALOTIES_TRAIN_ERROR: str = ('Определите метод get_spent_calories '
+CALORIES_TRAIN_ERROR: str = ('Определите метод get_spent_calories '
                              'в классе {}.')
-UNKNOWN_TR_TYPE_ERROR: str = (
+UNKNOWN_TRAIN_TYPE_ERROR: str = (
     'Ваш трекер пока не умеет работать'
-    'c тренировками подобного типа. '
+    'c тренировками типа {}. '
     'Напишите нам на address@comp.ru, '
     'и в одном из следующих обновлений мы его научим.'
 )
@@ -57,7 +57,7 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         raise NotImplementedError(
-            CALOTIES_TRAIN_ERROR.format(type(self).__name__)
+            CALORIES_TRAIN_ERROR.format(type(self).__name__)
         )
 
     def show_training_info(self) -> InfoMessage:
@@ -155,8 +155,7 @@ def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type in TRAINING_TYPES:
         return TRAINING_TYPES[workout_type](*data)
-    else:
-        raise ValueError(UNKNOWN_TR_TYPE_ERROR)
+    raise ValueError(UNKNOWN_TRAIN_TYPE_ERROR.format(workout_type))
 
 
 def main(training: Training) -> None:
